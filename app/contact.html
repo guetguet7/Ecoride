@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <script defer src="js/formulaire_contact.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <title>Contact</title>
+</head>
+<body>
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <!-- Logo à gauche -->
+            <a class="navbar-brand" href="#">
+                <img src="./img/ecoride.png" alt="Logo" width="50" height="50">
+            </a>
+
+            <!-- Bouton pour le menu burger -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menu à droite -->
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="covoiturage.html">Covoiturage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="inscription.html">Inscription</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    </header>
+    <main>
+        <div class="container py-5">
+            <div class="card shadow p-4 mx-auto" style="max-width: 600px;">
+                <h1 class="text-center mb-4">Contactez-nous</h1>
+
+                <!-- FORMULAIRE -->
+                <form id="formContact">
+                <div class="mb-3">
+                    <label for="nom" class="form-label">Nom</label>
+                    <input type="text" class="form-control" id="nom" placeholder="Votre nom" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" id="email" placeholder="exemple@mail.com" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="sujet" class="form-label">Sujet</label>
+                    <input type="text" class="form-control" id="sujet" placeholder="Sujet de votre message" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control" id="message" rows="4" placeholder="Votre message..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Envoyer</button>
+                </form>
+
+                <!-- AFFICHAGE DES DONNÉES -->
+                <div id="resultat" class="alert alert-success mt-4" style="display:none;"></div>
+            </div>
+        </div>
+    </main>
+    <footer class="d-flex flex-row align-items-center justify-content-around bg-success text-light">
+        <p>&copy; EcoRide 2025</p>
+        <p>ecoride@gmail.com</p>
+        <a class="text-decoration-none text-light" href="/">Mentions légales</a>
+    </footer>
+</body>
+</html>

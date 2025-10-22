@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="js/view.js"></script>
+    <title>Page d'accueil</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <!-- Logo à gauche -->
+                <a class="navbar-brand" href="#">
+                    <img src="./img/ecoride.png" alt="Logo" width="50" height="50">
+                </a>
+
+                <!-- Bouton pour le menu burger -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Menu à droite -->
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="covoiturage.html">Covoiturage</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="connexion.html">Connexion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container my-5">
+        <h1 class="text-center mb-4 fw-bold">📅 Historique de mes covoiturages</h1>
+        <p class="text-center text-muted mb-5">
+        Retrouvez ici tous vos trajets passés, en cours ou à venir.
+        </p>
+
+        <!-- Filtre d’affichage -->
+        <div class="d-flex justify-content-center mb-4">
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-primary active">Tous</button>
+            <button class="btn btn-outline-primary">En cours</button>
+            <button class="btn btn-outline-primary">Terminés</button>
+            <button class="btn btn-outline-primary">Annulés</button>
+        </div>
+        </div>
+
+        <!-- Tableau des trajets -->
+        <div class="table-responsive shadow-sm">
+        <table class="table align-middle table-hover">
+            <thead class="table-primary">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Rôle</th>
+                <th scope="col">Départ</th>
+                <th scope="col">Arrivée</th>
+                <th scope="col">Date</th>
+                <th scope="col">Heure</th>
+                <th scope="col">Statut</th>
+                <th scope="col" class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Exemple 1 -->
+            <tr>
+                <th scope="row">001</th>
+                <td><span class="badge bg-success">Chauffeur</span></td>
+                <td>Toulouse</td>
+                <td>Bordeaux</td>
+                <td>05/10/2025</td>
+                <td>08h00 → 11h30</td>
+                <td><span class="badge bg-warning text-dark">En cours</span></td>
+                <td class="text-center">
+                <button class="btn btn-danger btn-sm"> Annuler</button>
+                </td>
+            </tr>
+
+            <!-- Exemple 2 -->
+            <tr>
+                <th scope="row">002</th>
+                <td><span class="badge bg-primary">Passager</span></td>
+                <td>Paris</td>
+                <td>Lyon</td>
+                <td>20/09/2025</td>
+                <td>09h00 → 13h30</td>
+                <td><span class="badge bg-success">Terminé</span></td>
+                <td class="text-center">
+                <a href="/utilisateur/avis.html" class="btn btn-outline-secondary btn-sm"> Laisser un avis</a>
+                </td>
+            </tr>
+
+            <!-- Exemple 3 -->
+            <tr>
+                <th scope="row">003</th>
+                <td><span class="badge bg-success">Chauffeur</span></td>
+                <td>Nice</td>
+                <td>Marseille</td>
+                <td>12/09/2025</td>
+                <td>14h00 → 16h30</td>
+                <td><span class="badge bg-danger">Annulé</span></td>
+                <td class="text-center">
+                <button class="btn btn-outline-secondary btn-sm" disabled>Annulé</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <!-- Résumé -->
+        <div class="mt-4 text-center">
+        <p class="text-muted">Vous avez effectué <strong>8 trajets</strong> dont <strong>5</strong> comme passager et <strong>3</strong> comme chauffeur.</p>
+        </div>
+    </main>
+
+    <footer class="d-flex flex-row align-items-center justify-content-around bg-success text-light">
+        <p>&copy; EcoRide 2025</p>
+        <p>ecoride@gmail.com</p>
+        <a class="text-decoration-none text-light" href="/">Mentions légales</a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/scss/main.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="js/view.js"></script>
+    <title>Page utilisateur</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img src="./img/ecoride.png" alt="" width="80" height="80">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-end">
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="connexion.html">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="covoiturage.html">Covoiturage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container my-5">
+        <div class="text-center mb-5">
+        <h1 class="fw-bold">Bienvenue dans votre espace utilisateur</h1>
+        <p class="text-muted">Gérez vos trajets, vos covoiturages et vos crédits facilement.</p>
+        </div>
+
+        <!-- Carte Profil -->
+        <div class="card shadow-sm mb-5">
+        <div class="card-body text-center">
+            <h4 id="username">Utilisateur Exemple</h4>
+            <p>Rôle : <span class="badge bg-success">Passager / Chauffeur</span></p>
+            <p>Crédits disponibles : <span class="fw-bold text-success">20</span></p>
+        </div>
+        </div>
+
+        <!-- Menu des fonctionnalités -->
+        <div class="row text-center g-4">
+        <div class="col-md-3">
+            <a href="covoiturage.html" class="text-decoration-none text-dark">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                <h5 class="card-title fw-bold">Rechercher un covoiturage</h5>
+                <p class="text-muted">Trouvez un trajet selon votre destination.</p>
+                </div>
+            </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="ajout_trajet.html" class="text-decoration-none text-dark">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                <h5 class="card-title fw-bold">Proposer un trajet</h5>
+                <p class="text-muted">Publiez votre covoiturage en quelques clics.</p>
+                </div>
+            </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="historique.html" class="text-decoration-none text-dark">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                <h5 class="card-title fw-bold">Historique</h5>
+                <p class="text-muted">Consultez vos trajets passés ou annulés.</p>
+                </div>
+            </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="avis.html" class="text-decoration-none text-dark">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                <h5 class="card-title fw-bold">Mes avis</h5>
+                <p class="text-muted">Gérez vos évaluations et retours.</p>
+                </div>
+            </div>
+            </a>
+        </div>
+        </div>
+
+        <button class="btn btn-success mt-5 "><a class="text-decoration-none text-light" href="voiture.html">Accéder à mes véhicules</a></button>
+    </main>
+    <footer class="d-flex flex-row align-items-center justify-content-around bg-success text-light">
+        <p>&copy; EcoRide 2025</p>
+        <p>ecoride@gmail.com</p>
+        <a class="text-decoration-none text-light" href="/">Mentions légales</a>
+    </footer>
+</body>
+</html>
