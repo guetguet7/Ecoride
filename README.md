@@ -2,7 +2,7 @@
 
 ***
 
-# Déscription du projet Ecoride
+# Description du projet Ecoride
 EcoRide est une application web de covoiturage écologique permettant aux utilisateurs de :
 
 * Rechercher des trajets
