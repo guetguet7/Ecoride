@@ -23,14 +23,15 @@ l'autre nommé doc contient donc toute la documentation du projet tel que :
 
 * Chartes graphique
 * Maquettes Wireframe et MockUp
+* Diagramme d'utilisation
 * Diagramme de classe
-* Diagrammes de séquences 
+* Diagramme de séquence 
 
 ***
 
 ### Déploiement du site 
 
-Se déplacer dans les dossier TP_DWWM_Juin-Juil-Sept-Oct25_copiearendre_JULIEN_Gaetan ensuite dans app enfin cliquer sur index.html 
+Se déplacer dans les dossier Ecoride ensuite dans app enfin cliquer sur index.html 
 
 ***
 
@@ -38,5 +39,3 @@ Technologie utilisé:
 
 HTML, Css, Boostrap, Javascript, LocalStorage et github 
 
-Déploiement:
-localement avec github ou en ligne avec githubPages
