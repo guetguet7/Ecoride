@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
   // Si pas d'infos => redirection vers le formulaire
   if (!chauffeurData) {
     alert("Aucune information trouvée. Veuillez remplir le formulaire chauffeur.");
-    window.location.href = "chauffeur.html";
+    window.location.href = "utilisateur.html";
     return;
   }
 
