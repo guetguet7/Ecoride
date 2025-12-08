@@ -2,7 +2,7 @@
 
 ***
 
-# Déscription du projet Ecoride
+# Description du projet Ecoride
 EcoRide est une application web de covoiturage écologique permettant aux utilisateurs de :
 
 * Rechercher des trajets
@@ -23,29 +23,27 @@ l'autre nommé doc contient donc toute la documentation du projet tel que :
 
 * Chartes graphique
 * Maquettes Wireframe et MockUp
+* Diagramme d'utilisation
 * Diagramme de classe
-* Diagrammes de séquences 
+* Diagramme de séquence 
 
 ***
 
 ### Déploiement du site 
 
-Pour le déploiement nous allons dans le terminal lancer le serveur avec la commande php bin/console server:start.
-Ensuite nous allons lancer un outil de teste d'email mailpit pour le lancer il faut taper dans le terminal mailpit.
+Depuis la racine du projet, placez-vous dans `App/` et lancez le serveur Symfony (par exemple via Symfony CLI) : `symfony serve -d`, puis accédez à l’URL fournie.  
+Pour tester l’envoi d’emails en local, démarrez Mailpit : `docker compose up -d mailer`.
 
-Pour accéder au profil Administrateur il faudra se connecter et rentrer ces informations:
+Pour accéder au profil Administrateur :
 
-pseudo: gaetan 
+pseudo: gaetan  
 mot de passe : 12345678
 
-Et pour l'employé:
+Pour l'employé:
 
-Pseudo: jenny1233
+Pseudo: jenny1233  
 mot de passe : 12345678
 
 Technologie utilisé:
 
-HTML, CSS, Boostrap, PHP, symfony et github 
-
-Déploiement:
-localement avec github ou en ligne avec githubPages
+HTML, CSS, Boostrap, PHP, symfony et github
