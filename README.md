@@ -38,7 +38,6 @@ Depuis la racine du projet, placez-vous dans `App/` :
 3. Installer les dépendances front : `npm install` puis build : `npm run build`
 4. Lancer Symfony : `symfony serve -d` (ou le serveur PHP interne) puis accéder à l’URL fournie.
 
-Variables à ajuster dans `.env.local` (non versionné) : `DATABASE_URL` (MySQL), `APP_SECRET`, `MAILER_DSN`.
 
 Pour accéder au profil Administrateur :
 

@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\ParticipationRepository;
-use App\Repository\RidesRepository;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Connection;
 use DateTimeImmutable;
@@ -21,8 +19,6 @@ final class AdminController extends AbstractController
     public function index(
         Request $request,
         UserRepository $userRepository,
-        RidesRepository $ridesRepository,
-        ParticipationRepository $participationRepository,
         Connection $conn
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
