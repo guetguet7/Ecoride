@@ -1,0 +1,73 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Créer / modifier un trajet{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Proposer un trajet</h2>
+                    <small class="text-muted">Remplissez les informations puis validez</small>
+                </div>
+
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold" for="ride_nbplace">Places disponibles</label>
+                                <input type="number" min="1" id="ride_nbplace" name="ride[nbplace]" class="form-control" placeholder="Ex: 3" value="{{ ride.nbplace ?? '' }}" required>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div>
+                                    <div class="text-muted small">Pseudo conducteur</div>
+                                    <div class="fw-semibold">{{ app.user ? app.user.pseudo : '—' }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold" for="ride_prix">Prix du trajet (€)</label>
+                                <input type="number" min="0" id="ride_prix" name="ride[prix]" class="form-control" placeholder="Ex: 15" value="{{ ride.prix ?? '' }}" required>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold" for="ride_dateDepart">Date et heure de départ</label>
+                                <input type="datetime-local" id="ride_dateDepart" name="ride[dateHeureDepart]" class="form-control" value="{{ ride.dateHeureDepart ? ride.dateHeureDepart|date('Y-m-d\\TH:i') : '' }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold" for="ride_dateArrivee">Date et heure d'arrivée</label>
+                                <input type="datetime-local" id="ride_dateArrivee" name="ride[dateHeureArrivee]" class="form-control" value="{{ ride.dateHeureArrivee ? ride.dateHeureArrivee|date('Y-m-d\\TH:i') : '' }}" required>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold" for="ride_lieuDepart">Lieu de départ</label>
+                                <input type="text" id="ride_lieuDepart" name="ride[lieuDepart]" class="form-control" placeholder="Ville ou adresse" value="{{ ride.lieuDepart ?? '' }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold" for="ride_lieuArrivee">Lieu d'arrivée</label>
+                                <input type="text" id="ride_lieuArrivee" name="ride[lieuArrivee]" class="form-control" placeholder="Ville ou adresse" value="{{ ride.lieuArrivee ?? '' }}" required>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a href="{{ path('home') }}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Retour
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-send"></i> Enregistrer le trajet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

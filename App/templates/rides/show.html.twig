@@ -1,0 +1,179 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Détails du trajet{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <i class="bi bi-info-circle"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Trajet {{ ride.lieuDepart }} ➜ {{ ride.lieuArrivee }}</h3>
+                    <span class="badge bg-light text-success fw-bold">{{ ride.prix }} €</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        {% if driver and driver.profile and driver.profile.photo %}
+                            <img src="{{ asset('uploads/photos/' ~ driver.profile.photo) }}" alt="Conducteur {{ driver.pseudo }}" class="rounded-circle me-3" width="70" height="70" style="object-fit: cover;">
+                        {% elseif ride.photo %}
+                            <img src="{{ asset('uploads/photos/' ~ ride.photo) }}" alt="Conducteur {{ ride.pseudo }}" class="rounded-circle me-3" width="70" height="70" style="object-fit: cover;">
+                        {% else %}
+                            <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-3" style="width: 70px; height: 70px;">
+                                <i class="bi bi-person-fill" style="font-size: 2rem;"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h5 class="mb-1">{{ driver ? driver.pseudo : ride.pseudo }}</h5>
+                            {% if driverNote > 0 %}
+                                <p class="text-muted mb-0">Avis : {{ driverNote }}/5</p>
+                            {% else %}
+                                <p class="text-muted mb-0">Pas encore noté</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 h-100">
+                                <h6 class="fw-bold text-success">Détails du trajet</h6>
+                                <p class="mb-1"><strong>Départ :</strong> {{ ride.lieuDepart }}</p>
+                                <p class="mb-1"><strong>Arrivée :</strong> {{ ride.lieuArrivee }}</p>
+                                <p class="mb-1"><strong>Date départ :</strong> {{ ride.dateHeureDepart|date('d/m/Y H:i') }}</p>
+                                <p class="mb-1"><strong>Date arrivée :</strong> {{ ride.dateHeureArrivee|date('d/m/Y H:i') }}</p>
+                                <p class="mb-0"><strong>Places restantes :</strong> {{ ride.nbplace }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 h-100">
+                                <h6 class="fw-bold text-success">Voiture</h6>
+                                {% if voiture %}
+                                    <p class="mb-1"><strong>Modèle :</strong> {{ voiture.modele }}</p>
+                                    <p class="mb-1"><strong>Immatriculation :</strong> {{ voiture.immatriculation }}</p>
+                                    <p class="mb-1"><strong>Énergie :</strong> {{ voiture.energie }}</p>
+                                    <p class="mb-0"><strong>Couleur :</strong> {{ voiture.couleur }}</p>
+                                {% else %}
+                                    <p class="mb-0 text-muted">Aucune voiture renseignée.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <a href="{{ path('app_covoiturage') }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Retour
+                    </a>
+                    {% if isOwner %}
+                        {% if ride.status == 'active' %}
+                            <form method="post" action="{{ path('ride_start', {id: ride.id}) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('start_ride_' ~ ride.id) }}">
+                                <button type="submit" class="btn btn-outline-success">
+                                    <i class="bi bi-play-fill"></i> Démarrer
+                                </button>
+                            </form>
+                        {% elseif ride.status == 'in_progress' %}
+                            <form method="post" action="{{ path('ride_finish', {id: ride.id}) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('finish_ride_' ~ ride.id) }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-stop-fill"></i> Arrêter
+                                </button>
+                            </form>
+                        {% else %}
+                            <span class="badge bg-secondary">Trajet terminé</span>
+                        {% endif %}
+                    {% elseif app.user %}
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#participateModal">
+                            <i class="bi bi-check-circle"></i> Participer
+                        </button>
+                    {% else %}
+                        <a href="{{ path('app_register') }}" class="btn btn-success">
+                            <i class="bi bi-person-plus"></i> S'inscrire pour participer
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4" id="ride-reviews">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 text-success">Avis des passagers</h5>
+                    {% if canReview %}
+                        <a class="btn btn-sm btn-success" href="{{ path('ride_review_new', {id: ride.id}) }}">
+                            <i class="bi bi-chat-left-quote"></i> Laisser un avis
+                        </a>
+                    {% elseif userReview %}
+                        <span class="badge bg-secondary">Avis déjà envoyé</span>
+                    {% elseif app.user and not hasParticipation %}
+                        <span class="badge bg-secondary">Réservé aux passagers du trajet</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% if reviews|length > 0 %}
+                        <div class="list-group">
+                            {% for review in reviews %}
+                                <div class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <div class="fw-semibold">{{ review.author ? review.author.pseudo : 'Passager' }}</div>
+                                            <small class="text-muted">{{ review.createdAt|date('d/m/Y') }}</small>
+                                        </div>
+                                        <span class="badge bg-success">{{ review.note }}/5</span>
+                                    </div>
+                                    <p class="mb-0 mt-2">{{ review.commentaire ?: 'Pas de commentaire fourni.' }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted mb-0">Aucun avis pour ce conducteur sur ce trajet pour le moment.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if app.user and not isOwner %}
+<!-- Modal de participation -->
+<div class="modal fade" id="participateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmer la participation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Confirmez-vous votre participation à ce trajet pour <strong>{{ ride.prix }} €</strong> ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+                <form method="post" action="{{ path('ride_participate', {id: ride.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('participate_ride_' ~ ride.id) }}">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-circle"></i> Confirmer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

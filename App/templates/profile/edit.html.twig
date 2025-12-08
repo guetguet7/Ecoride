@@ -1,0 +1,226 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Colonne de gauche - Informations du profil -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    {% if user.profile and user.profile.photo %}
+                        <img src="{{ asset('uploads/photos/' ~ user.profile.photo) }}" 
+                             alt="Photo de profil" 
+                             class="img-fluid rounded-circle mb-3" 
+                             style="width: 150px; height: 150px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-secondary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" 
+                             style="width: 150px; height: 150px;">
+                            <i class="bi bi-person-fill text-white" style="font-size: 4rem;"></i>
+                        </div>
+                    {% endif %}
+                    
+                    <h3 class="mb-1">
+                        {% if user.profile and user.profile.nomComplet %}
+                            {{ user.profile.nomComplet }}
+                        {% else %}
+                            {{ user.pseudo }}
+                        {% endif %}
+                    </h3>
+                    <p class="text-muted">@{{ user.pseudo }}</p>
+                    
+                    {% if user.isVerified %}
+                        <span class="badge bg-success mb-3">
+                            <i class="bi bi-check-circle"></i> Vérifié
+                        </span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark mb-3">
+                            <i class="bi bi-exclamation-circle"></i> Non vérifié
+                        </span>
+                    {% endif %}
+                </div>
+                
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <i class="bi bi-envelope"></i> 
+                        <strong>Email:</strong> {{ user.email }}
+                    </li>
+                    
+                    {% if user.profile and user.profile.telephone %}
+                    <li class="list-group-item">
+                        <i class="bi bi-telephone"></i> 
+                        <strong>Téléphone:</strong> {{ user.profile.telephone }}
+                    </li>
+                    {% endif %}
+                    
+                    {% if user.profile and user.profile.dateNaissance %}
+                    <li class="list-group-item">
+                        <i class="bi bi-calendar"></i> 
+                        <strong>Date de naissance:</strong> {{ user.profile.dateNaissance|date('d/m/Y') }}
+                    </li>
+                    {% endif %}
+                    
+                    {% if user.profile and user.profile.adresse %}
+                    <li class="list-group-item">
+                        <i class="bi bi-geo-alt"></i> 
+                        <strong>Adresse:</strong><br>
+                        {{ user.profile.adresse }}
+                    </li>
+                    {% endif %}
+                    
+                    <li class="list-group-item">
+                        <i class="bi bi-clock"></i> 
+                        <strong>Membre depuis:</strong> {{ user.createAt|date('d/m/Y') }}
+                    </li>
+                    
+                    {% if user.lastLogin %}
+                    <li class="list-group-item">
+                        <i class="bi bi-box-arrow-in-right"></i> 
+                        <strong>Dernière connexion:</strong> {{ user.lastLogin|date('d/m/Y H:i') }}
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <!-- Actions rapides -->
+            <div class="card shadow-sm mt-3">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Actions rapides</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{{ path('rides_edit') }}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-plus-circle text-success"></i> Créer un trajet
+                    </a>
+                    <a href="{{ path('app_covoiturage') }}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-search text-info"></i> Demander un trajet
+                    </a>
+                    <a href="{{ path('voiture_index') }}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-car-front text-primary"></i> Gérer mes voitures
+                    </a>
+                    <a href="{{ path('home') }}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-clock-history text-warning"></i> Historique des trajets
+                    </a>
+                    <a href="{{ path('home') }}" class="list-group-item list-group-item-action">
+                        <i class="bi bi-star text-warning"></i> Mes avis
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Colonne de droite - Formulaire d'édition -->
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-pencil-square"></i> Modifier mon profil
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle"></i> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle"></i> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(form) }}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form_row(form.nom) }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form_row(form.prenom) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form_row(form.telephone) }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form_row(form.dateNaissance) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(form.adresse) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(form.photoFile) }}
+                        {% if user.profile and user.profile.photo %}
+                            <small class="text-muted">Photo actuelle: {{ user.profile.photo }}</small>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(form.roleType) }}
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="bi bi-save"></i> Enregistrer les modifications
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+
+            <!-- Statistiques utilisateur -->
+            <div class="card shadow-sm mt-3">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-graph-up"></i> Mes statistiques
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <div class="stat-box p-3 border rounded">
+                                <h2 class="text-primary">0</h2>
+                                <p class="text-muted mb-0">Trajets effectués</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-box p-3 border rounded">
+                                <h2 class="text-success">0</h2>
+                                <p class="text-muted mb-0">Avis reçus</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-box p-3 border rounded">
+                                <h2 class="text-warning">0.0</h2>
+                                <p class="text-muted mb-0">Note moyenne</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Boutons d'action en bas -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <a href="{{ path('app_profile') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Retour au profil
+            </a>
+            <a href="{{ path('app_forgot_password_request') }}" class="btn btn-warning">
+                <i class="bi bi-key"></i> Modifier le mot de passe
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

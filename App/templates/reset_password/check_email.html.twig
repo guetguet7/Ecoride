@@ -1,0 +1,90 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Email envoyé - Réinitialisation du mot de passe{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            
+            <!-- Card principale -->
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-4 p-md-5 text-center">
+                    
+                    <!-- Icône de succès -->
+                    <div class="mb-4">
+                        <div class="rounded-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center mb-3"
+                             style="width: 80px; height: 80px;">
+                            <i class="bi bi-envelope-check-fill text-success fs-1"></i>
+                        </div>
+                        <h2 class="fw-bold mb-3">Email envoyé !</h2>
+                    </div>
+
+                    <!-- Message principal -->
+                    <div class="alert alert-success border-0 bg-success bg-opacity-10 text-start mb-4">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        <strong>Si un compte correspond à votre email</strong>, un email vient d'être envoyé contenant un lien pour réinitialiser votre mot de passe.
+                    </div>
+
+                    <!-- Information d'expiration -->
+                    <div class="alert alert-warning border-0 bg-warning bg-opacity-10 text-start mb-4">
+                        <i class="bi bi-clock-fill me-2"></i>
+                        <strong>Attention :</strong> Ce lien expirera dans 
+                        <span class="fw-bold">{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}</span>.
+                    </div>
+
+                    <!-- Instructions -->
+                    <div class="card bg-light border-0 mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">
+                                <i class="bi bi-question-circle-fill text-primary me-2"></i>
+                                Vous n'avez pas reçu l'email ?
+                            </h5>
+                            <ul class="list-unstyled text-start mb-0">
+                                <li class="mb-2">
+                                    <i class="bi bi-chevron-right text-primary me-2"></i>
+                                    Vérifiez votre dossier <strong>spam/courrier indésirable</strong>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-chevron-right text-primary me-2"></i>
+                                    Vérifiez que l'adresse email est correcte
+                                </li>
+                                <li>
+                                    <i class="bi bi-chevron-right text-primary me-2"></i>
+                                    Patientez quelques minutes, la livraison peut prendre du temps
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Boutons d'action -->
+                    <div class="d-grid gap-2 mb-3">
+                        <a href="{{ path('app_forgot_password_request') }}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-arrow-repeat me-2"></i>
+                            Renvoyer un email
+                        </a>
+                        <a href="{{ path('app_login') }}" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>
+                            Retour à la connexion
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Message de sécurité -->
+            <div class="text-center mt-4">
+                <p class="text-muted small mb-1">
+                    <i class="bi bi-shield-lock-fill me-1"></i>
+                    Pour votre sécurité, nous ne confirmons jamais si un compte existe ou non
+                </p>
+                <p class="text-muted small mb-0">
+                    <i class="bi bi-envelope-fill me-1"></i>
+                    Besoin d'aide ? <a href="{{ path('contact') }}" class="text-decoration-none">Contactez le support</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Ma voiture{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Ma voiture</h4>
+                    <a href="{{ path('voiture_edit') }}" class="btn btn-light btn-sm">
+                        <i class="bi bi-pencil-square"></i> Modifier
+                    </a>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-semibold">Modèle</span>
+                            <span>{{ voiture.modele ?? '—' }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-semibold">Immatriculation</span>
+                            <span>{{ voiture.immatriculation ?? '—' }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-semibold">Énergie</span>
+                            <span>{{ voiture.energie ?? '—' }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-semibold">Couleur</span>
+                            <span>{{ voiture.couleur ?? '—' }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-semibold">Première immatriculation</span>
+                            <span>{{ voiture.datePremiereImmatriculation ?? '—' }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="{{ path('app_profile') }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Retour profil
+                    </a>
+                    <a href="{{ path('voiture_edit') }}" class="btn btn-success">
+                        <i class="bi bi-pencil-square"></i> Modifier ma voiture
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

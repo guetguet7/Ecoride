@@ -1,0 +1,60 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Historique{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Trajets comme conducteur</h5>
+                    <span class="badge bg-light text-success">{{ ridesAsDriver|length }}</span>
+                </div>
+                <div class="card-body">
+                    {% if ridesAsDriver|length > 0 %}
+                        <div class="list-group">
+                            {% for ride in ridesAsDriver %}
+                                <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-start" href="{{ path('ride_show', {id: ride.id}) }}">
+                                    <div>
+                                        <div class="fw-semibold">{{ ride.lieuDepart }} ➜ {{ ride.lieuArrivee }}</div>
+                                        <small class="text-muted">Arrivée : {{ ride.dateHeureArrivee ? ride.dateHeureArrivee|date('d/m/Y H:i') : '—' }}</small>
+                                    </div>
+                                    <span class="badge bg-secondary">{{ ride.status }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted mb-0">Aucun trajet encore terminé.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Trajets comme passager</h5>
+                    <span class="badge bg-light text-success">{{ ridesAsPassenger|length }}</span>
+                </div>
+                <div class="card-body">
+                    {% if ridesAsPassenger|length > 0 %}
+                        <div class="list-group">
+                            {% for participation in ridesAsPassenger %}
+                                <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-start" href="{{ path('ride_show', {id: participation.ride.id}) }}">
+                                    <div>
+                                        <div class="fw-semibold">{{ participation.ride.lieuDepart }} ➜ {{ participation.ride.lieuArrivee }}</div>
+                                        <small class="text-muted">Arrivée : {{ participation.ride.dateHeureArrivee ? participation.ride.dateHeureArrivee|date('d/m/Y H:i') : '—' }}</small>
+                                    </div>
+                                    <span class="badge bg-secondary">{{ participation.status }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted mb-0">Aucun trajet comme passager pour l'instant.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

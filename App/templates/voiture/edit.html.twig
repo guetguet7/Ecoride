@@ -1,0 +1,65 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Éditer ma voiture{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Ma voiture</h4>
+                    <small>Complétez les informations du véhicule</small>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="voiture_modele" class="form-label fw-semibold">Modèle</label>
+                            <input type="text" id="voiture_modele" name="voiture[modele]" class="form-control" placeholder="Ex: Zoe, Model 3..." value="{{ voiture.modele ?? '' }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="voiture_immatriculation" class="form-label fw-semibold">Immatriculation</label>
+                            <input type="text" id="voiture_immatriculation" name="voiture[immatriculation]" class="form-control" placeholder="Ex: AB-123-CD" value="{{ voiture.immatriculation ?? '' }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="voiture_energie" class="form-label fw-semibold d-block">Énergie</label>
+                            <div class="form-check form-switch">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="voiture_energie"
+                                    name="voiture[energie_electrique]"
+                                    value="1"
+                                    {% if voiture.energie is defined and voiture.energie and voiture.energie|lower starts with 'électrique' or voiture.energie|lower starts with 'electrique' %}checked{% endif %}>
+                                <label class="form-check-label" for="voiture_energie">Véhicule électrique</label>
+                            </div>
+                            <small class="text-muted">Si décoché, le véhicule sera enregistré comme non électrique.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="voiture_couleur" class="form-label fw-semibold">Couleur</label>
+                            <input type="text" id="voiture_couleur" name="voiture[couleur]" class="form-control" placeholder="Ex: Noir" value="{{ voiture.couleur ?? '' }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="voiture_datePremiereImmatriculation" class="form-label fw-semibold">Première immatriculation</label>
+                            <input type="text" id="voiture_datePremiereImmatriculation" name="voiture[datePremiereImmatriculation]" class="form-control" placeholder="Ex: 01/2021" value="{{ voiture.datePremiereImmatriculation ?? '' }}" required>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{{ path('app_profile') }}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Retour profil
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-save"></i> Enregistrer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

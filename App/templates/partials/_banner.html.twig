@@ -1,0 +1,60 @@
+<header>
+    {% if is_granted('ROLE_EMPLOYEE') %}
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="{{ asset('images/ecoride.png') }}" alt="EcoRide" width="80" height="80">
+                </a>
+                <div class="ms-auto">
+                    <a href="{{ path('employee_dashboard') }}" class="btn btn-outline-success me-2">Espace employé</a>
+                    <a href="{{ path('app_logout') }}" class="btn btn-outline-danger">Se déconnecter</a>
+                </div>
+            </div>
+        </nav>
+    {% else %}
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="{{ asset('images/ecoride.png') }}" alt="" width="80" height="80">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end text-end" id="navbarText">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex flex-column flex-lg-row align-items-end align-items-lg-center justify-content-end w-100 text-end">
+                    <li class="nav-item">
+                        {%if app.current_route == 'home' %}
+                        <a class="nav-link active" aria-current="page" aria-label="Retour accueil" href="/">
+                        {% else  %}
+                        <a class="nav-link" aria-label="Retour accueil" href="/">
+                        {% endif  %}
+                            <i class="bi bi-house-up" aria-hidden="true"></i>
+                        </a>                            
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('app_covoiturage') }}" class="nav-link {% if app.current_route == 'app_covoiturage' %} active{% endif %}">Covoiturage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('contact') }}" class="nav-link {% if app.current_route == 'contact' %} active{% endif %}">Contact</a>
+                    </li>
+                    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}      
+                    <li>
+                        <a href="{{ path('app_login') }}" class="nav-link{% if app.current_route == 'app_login' %} active{% endif %}">Se connecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('app_register') }}" class="nav-link{% if app.current_route == 'app_register' %} active{% endif %}">S'inscrire</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{{ path('app_profile') }}" class="nav-link{% if app.current_route in ['app_profile', 'app_profile_edit'] %} active{% endif %}">Mon compte</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_logout') }}" class="nav-link{% if app.current_route == 'app_logout' %} active{% endif %}">Se déconnecter</a>
+                    </li>
+                    {% endif %}            
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+</header>

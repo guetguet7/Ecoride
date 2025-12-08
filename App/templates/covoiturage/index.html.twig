@@ -1,0 +1,112 @@
+{% extends 'layout.html.twig' %}
+{% block title %} Covoiturage - Ecoride {% endblock %}
+{% block content %}    
+    <main>
+        <div class="container py-5">
+            <!-- Bouton pour afficher/masquer les filtres -->
+            <button class="btn btn-success mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filtersCollapse" aria-expanded="false" aria-controls="filtersCollapse">
+                Filtres <span class="badge bg-secondary">⌄</span>
+            </button>
+
+            <!-- Conteneur des filtres (masqué par défaut) -->
+            <div class="collapse" id="filtersCollapse">
+                <div class="card card-body">
+                    <form id="filtersForm" method="get" action="{{ path('app_covoiturage') }}">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <fieldset>
+                                    <legend class="form-label">Écologique</legend>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="filter-eco-any" name="eco" value="any" checked>
+                                        <label class="form-check-label" for="filter-eco-any">Tous</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="filter-eco-electric" name="eco" value="true">
+                                        <label class="form-check-label" for="filter-eco-electric">Électrique</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="filter-eco-non-electric" name="eco" value="false">
+                                        <label class="form-check-label" for="filter-eco-non-electric">Non-électrique</label>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="filter-price" class="form-label">Prix max</label>
+                                <input type="number" id="filter-price" name="price" class="form-control" placeholder="Crédits max">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="filter-duration" class="form-label">Durée max (min)</label>
+                                <input type="number" id="filter-duration" name="duration" class="form-control" placeholder="Minutes">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="filter-rating" class="form-label">Note min</label>
+                                <input type="number" id="filter-rating" name="rating" class="form-control" min="0" max="5" placeholder="Ex: 4">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-funnel"></i> Appliquer les filtres
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% if rides is defined and rides|length > 0 %}
+            <div class="container pb-5">
+                <div class="row g-4">
+                    {% for ride in rides %}
+                        {% set driver = ride.user %}
+                        {% set driverNote = driver ? (driver.rating ?? 0) : 0 %}
+                        {% set voiture = driver and driver.voitures|length > 0 ? driver.voitures|first : null %}
+                        {% set isEco = voiture and voiture.energie and (voiture.energie|lower starts with 'electrique' or voiture.energie|lower starts with 'électrique') %}
+                        <div class="col-md-6 col-lg-6 col-xl-4">
+                            <div class="card shadow-sm h-100 border-success">
+                                <div class="card-body d-flex flex-column gap-2 p-4">
+                                    <div class="d-flex align-items-center mb-3">
+                                        {% if driver and driver.profile and driver.profile.photo %}
+                                            <img src="{{ asset('uploads/photos/' ~ driver.profile.photo) }}" alt="Avatar de {{ driver.pseudo ?? ride.pseudo }}" class="rounded-circle me-3" width="50" height="50" style="object-fit: cover;">
+                                        {% elseif ride.photo %}
+                                            <img src="{{ asset('uploads/photos/' ~ ride.photo) }}" alt="Avatar de {{ ride.pseudo }}" class="rounded-circle me-3" width="50" height="50" style="object-fit: cover;">
+                                        {% else %}
+                                            <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                                <i class="bi bi-person-fill"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div>
+                                            <h5 class="card-title fw-bold mb-0">{{ ride.pseudo }}</h5>
+                                            <div class="d-flex flex-wrap align-items-center gap-2 mt-1">
+                                                <span class="badge bg-success">{{ driverNote|number_format(1, '.', ' ') }}/5</span>
+                                                {% if isEco %}
+                                                    <span class="badge bg-success text-light"><i class="bi bi-leaf"></i> Trajet écologique</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mb-1"><strong>Places :</strong> {{ ride.nbplace }}</p>
+                                    <p class="mb-1"><strong>Prix :</strong> {{ ride.prix }} €</p>
+                                    <p class="mb-1"><strong>Départ :</strong> {{ ride.lieuDepart }} le {{ ride.dateHeureDepart|date('d/m/Y H:i') }}</p>
+                                    <p class="mb-3"><strong>Arrivée :</strong> {{ ride.lieuArrivee }} le {{ ride.dateHeureArrivee|date('d/m/Y H:i') }}</p>
+                                    <a href="{{ path('ride_show', {id: ride.id}) }}" class="btn btn-outline-success w-100">Détails</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="container pb-5">
+                <div class="alert alert-success text-center mb-0">
+                    Il n'y a pas de trajet pour cette date.
+                </div>
+                <div class="text-center mt-3">
+                    <a class="btn btn-outline-success" href="{{ path('home') }}">
+                        Revenir à la recherche
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </main>
+
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Réinitialiser le mot de passe{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            
+            <!-- Card principale -->
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <!-- Icône et titre -->
+                    <div class="text-center mb-4">
+                        <div class="rounded-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center mb-3"
+                             style="width: 70px; height: 70px;">
+                            <i class="bi bi-key-fill text-primary fs-2"></i>
+                        </div>
+                        <h2 class="fw-bold">Mot de passe oublié ?</h2>
+                        <p class="text-muted mb-0">Pas de soucis, nous allons vous aider</p>
+                    </div>
+
+                    <!-- Messages flash d'erreur -->
+                    {% for flash_error in app.flashes('reset_password_error') %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            {{ flash_error }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+
+                    <!-- Formulaire -->
+                    {{ form_start(requestForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                        
+                        <div class="mb-4">
+                            {{ form_row(requestForm.email, {
+                                'label': 'Adresse email',
+                                'attr': {
+                                    'class': 'form-control form-control-lg',
+                                    'placeholder': 'exemple@email.com'
+                                },
+                                'label_attr': {'class': 'form-label fw-semibold'}
+                            }) }}
+                        </div>
+
+                        <!-- Information -->
+                        <div class="alert alert-info border-0 bg-info bg-opacity-10" role="alert">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            <small>
+                                Saisissez votre email et nous vous enverrons un lien pour réinitialiser votre mot de passe.
+                            </small>
+                        </div>
+
+                        <!-- Bouton d'envoi -->
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-envelope-fill me-2"></i>
+                                Envoyer l'email de réinitialisation
+                            </button>
+                        </div>
+
+                    {{ form_end(requestForm) }}
+
+                    <!-- Lien retour connexion -->
+                    <div class="text-center mt-4 pt-3 border-top">
+                        <a href="{{ path('app_login') }}" class="text-decoration-none">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Retour à la connexion
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Message d'aide supplémentaire -->
+            <div class="text-center mt-4">
+                <p class="text-muted small">
+                    <i class="bi bi-shield-check me-1"></i>
+                    Ce lien de réinitialisation expirera dans 1 heure
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

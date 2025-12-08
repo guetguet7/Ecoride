@@ -1,0 +1,65 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Nous contacter{% endblock %}
+
+{% block content %}
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle"></i> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                    {% for message in app.flashes('alert') %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle"></i> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+
+                    <h2 class="mb-4 text-center">Nous écrire</h2>
+
+                    {{ form_start(contactForm) }}
+
+                        <div class="mb-3">
+                            {{ form_label(contactForm.name, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(contactForm.name, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(contactForm.name) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(contactForm.email, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(contactForm.email, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(contactForm.email) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(contactForm.subject, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(contactForm.subject, {'attr': {'class': 'form-select'}}) }}
+                            {{ form_errors(contactForm.subject) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(contactForm.message, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(contactForm.message, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+                            {{ form_errors(contactForm.message) }}
+                        </div>
+
+                        <div class="d-grid">
+                            {{ form_widget(contactForm.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                        </div>
+
+                    {{ form_end(contactForm) }}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+{% endblock %}
