@@ -31,8 +31,14 @@ l'autre nommé doc contient donc toute la documentation du projet tel que :
 
 ### Déploiement du site 
 
-Depuis la racine du projet, placez-vous dans `App/` et lancez le serveur Symfony (par exemple via Symfony CLI) : `symfony serve -d`, puis accédez à l’URL fournie.  
-Pour tester l’envoi d’emails en local, démarrez Mailpit : `docker compose up -d mailer`.
+Depuis la racine du projet, placez-vous dans `App/` :
+
+1. Démarrer les services locaux (MySQL + Mailpit) : `docker compose up -d database mailer`
+2. Installer les dépendances PHP : `composer install`
+3. Installer les dépendances front : `npm install` puis build : `npm run build`
+4. Lancer Symfony : `symfony serve -d` (ou le serveur PHP interne) puis accéder à l’URL fournie.
+
+Variables à ajuster dans `.env.local` (non versionné) : `DATABASE_URL` (MySQL), `APP_SECRET`, `MAILER_DSN`.
 
 Pour accéder au profil Administrateur :
 
