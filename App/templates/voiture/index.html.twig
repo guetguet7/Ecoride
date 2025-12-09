@@ -1,0 +1,100 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Mes voitures{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+
+    <div class="row g-4">
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Ajouter une voiture</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" for="v_modele">Modèle</label>
+                            <input type="text" id="v_modele" name="voiture[modele]" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" for="v_immatriculation">Immatriculation</label>
+                            <input type="text" id="v_immatriculation" name="voiture[immatriculation]" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold d-block" for="v_energie">Énergie</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="v_energie" name="voiture[energie_electrique]" value="1">
+                                <label class="form-check-label" for="v_energie">Véhicule électrique</label>
+                            </div>
+                            <small class="text-muted">Si décoché, le véhicule sera enregistré comme non électrique.</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" for="v_couleur">Couleur</label>
+                            <input type="text" id="v_couleur" name="voiture[couleur]" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" for="v_date">Première immatriculation</label>
+                            <input type="text" id="v_date" name="voiture[datePremiereImmatriculation]" class="form-control" placeholder="Ex: 01/2021" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-save"></i> Enregistrer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Vos voitures</h5>
+                </div>
+                <div class="card-body">
+                    {% if voitures|length > 0 %}
+                        <div class="list-group">
+                            {% for voiture in voitures %}
+                                <div class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="fw-semibold">{{ voiture.modele }} ({{ voiture.couleur }})</div>
+                                        <div class="text-muted small">
+                                            Immat: {{ voiture.immatriculation }} | Énergie: {{ voiture.energie }} | 1ère immat: {{ voiture.datePremiereImmatriculation }}
+                                        </div>
+                                    </div>
+                                    <form method="post" action="{{ path('voiture_delete', {id: voiture.id}) }}" onsubmit="return confirm('Supprimer cette voiture ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete_voiture_' ~ voiture.id) }}">
+                                        <button class="btn btn-outline-danger btn-sm" type="submit">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted mb-0">Aucune voiture enregistrée pour le moment.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ path('app_profile') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Retour au profil
+        </a>
+    </div>
+</div>
+{% endblock %}

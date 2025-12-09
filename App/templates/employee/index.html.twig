@@ -1,0 +1,117 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Espace Employé{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+
+    <div class="mb-5">
+        <h2 class="h4 mb-3">Avis en attente</h2>
+        {% if pendingReviews|length > 0 %}
+            <div class="list-group">
+                {% for review in pendingReviews %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="fw-semibold">Trajet #{{ review.ride.id }} — {{ review.ride.lieuDepart }} ➜ {{ review.ride.lieuArrivee }}</div>
+                                <div class="small text-muted">Passager : {{ review.author.pseudo }} ({{ review.author.email }})</div>
+                                <div class="small text-muted">Chauffeur : {{ review.driver.pseudo }} ({{ review.driver.email }})</div>
+                                <div class="mt-2">
+                                    <span class="badge bg-success">{{ review.note }}/5</span>
+                                    <span class="badge bg-light text-dark">{{ review.createdAt|date('d/m/Y H:i') }}</span>
+                                </div>
+                                <p class="mb-1 mt-2">{{ review.commentaire ?: 'Pas de commentaire.' }}</p>
+                            </div>
+                            <div class="d-flex flex-column gap-2">
+                                <form method="post" action="{{ path('employee_review_approve', {id: review.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('approve_review_' ~ review.id) }}">
+                                    <button class="btn btn-sm btn-success" type="submit">
+                                        <i class="bi bi-check-circle"></i> Valider
+                                    </button>
+                                </form>
+                                <form method="post" action="{{ path('employee_review_reject', {id: review.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('reject_review_' ~ review.id) }}">
+                                    <button class="btn btn-sm btn-outline-danger" type="submit">
+                                        <i class="bi bi-x-circle"></i> Refuser
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if pendingPages > 1 %}
+                <nav class="mt-3">
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item {% if pendingPage == 1 %}disabled{% endif %}">
+                            <a class="page-link" href="{{ path('employee_dashboard', {'pendingPage': pendingPage - 1, 'flaggedPage': flaggedPage}) }}">&laquo;</a>
+                        </li>
+                        {% for p in 1..pendingPages %}
+                            <li class="page-item {% if p == pendingPage %}active{% endif %}">
+                                <a class="page-link" href="{{ path('employee_dashboard', {'pendingPage': p, 'flaggedPage': flaggedPage}) }}">{{ p }}</a>
+                            </li>
+                        {% endfor %}
+                        <li class="page-item {% if pendingPage == pendingPages %}disabled{% endif %}">
+                            <a class="page-link" href="{{ path('employee_dashboard', {'pendingPage': pendingPage + 1, 'flaggedPage': flaggedPage}) }}">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <p class="text-muted mb-0">Aucun avis en attente pour le moment.</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <h2 class="h4 mb-3">Covoiturages signalés (notes ≤ 2)</h2>
+        {% if flaggedRides|length > 0 %}
+            <div class="list-group">
+                {% for review in flaggedRides %}
+                    <div class="list-group-item">
+                        <div class="fw-semibold">Trajet #{{ review.ride.id }} — {{ review.ride.lieuDepart }} ➜ {{ review.ride.lieuArrivee }}</div>
+                        <div class="small text-muted">Passager : {{ review.author.pseudo }} ({{ review.author.email }})</div>
+                        <div class="small text-muted">Chauffeur : {{ review.driver.pseudo }} ({{ review.driver.email }})</div>
+                        <div class="small text-muted">Date avis : {{ review.createdAt|date('d/m/Y H:i') }}</div>
+                        <div class="mt-2">
+                            <span class="badge bg-danger">{{ review.note }}/5</span>
+                            <span class="badge bg-light text-dark">Statut : {{ review.statut }}</span>
+                        </div>
+                        <p class="mb-1 mt-2">{{ review.commentaire ?: 'Pas de commentaire.' }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if flaggedPages > 1 %}
+                <nav class="mt-3">
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item {% if flaggedPage == 1 %}disabled{% endif %}">
+                            <a class="page-link" href="{{ path('employee_dashboard', {'pendingPage': pendingPage, 'flaggedPage': flaggedPage - 1}) }}">&laquo;</a>
+                        </li>
+                        {% for p in 1..flaggedPages %}
+                            <li class="page-item {% if p == flaggedPage %}active{% endif %}">
+                                <a class="page-link" href="{{ path('employee_dashboard', {'pendingPage': pendingPage, 'flaggedPage': p}) }}">{{ p }}</a>
+                            </li>
+                        {% endfor %}
+                        <li class="page-item {% if flaggedPage == flaggedPages %}disabled{% endif %}">
+                            <a class="page-link" href="{{ path('employee_dashboard', {'pendingPage': pendingPage, 'flaggedPage': flaggedPage + 1}) }}">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <p class="text-muted mb-0">Aucun covoiturage signalé ou mal noté actuellement.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

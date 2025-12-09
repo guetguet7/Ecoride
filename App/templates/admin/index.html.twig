@@ -1,0 +1,199 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Espace Administrateur{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Créer un compte employé</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{{ path('admin_employee_create') }}">
+                        <div class="mb-3">
+                            <label class="form-label" for="emp_pseudo">Pseudo</label>
+                            <input type="text" id="emp_pseudo" name="employee[pseudo]" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="emp_email">Email</label>
+                            <input type="email" id="emp_email" name="employee[email]" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="emp_password">Mot de passe</label>
+                            <input type="password" id="emp_password" name="employee[password]" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Créer l'employé</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Statistiques plateformes</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">Total crédits gagnés : <span class="fw-bold text-success">{{ totalCredits ?? 0 }}</span></p>
+                    <canvas id="ridesChart" height="150" class="mb-2"></canvas>
+                    <p id="ridesChartEmpty" class="text-muted small d-none mb-3">Aucune donnée de covoiturage pour l'instant.</p>
+                    <canvas id="earningsChart" class="mt-2" height="150"></canvas>
+                    <p id="earningsChartEmpty" class="text-muted small d-none">Aucune donnée de crédits pour l'instant.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-4">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Employés</h5>
+                </div>
+                <div class="card-body">
+                    {% if employees|length > 0 %}
+                        <div class="list-group">
+                            {% for emp in employees %}
+                                <div class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="fw-semibold">{{ emp.pseudo }}</div>
+                                        <div class="small text-muted">{{ emp.email }}</div>
+                                    </div>
+                                    <form method="post" action="{{ path('admin_user_toggle_suspend', {id: emp.id}) }}" onsubmit="return confirm('Confirmer la suspension / réactivation ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('toggle_suspend_' ~ emp.id) }}">
+                                        {% if emp.suspended %}
+                                            <button class="btn btn-sm btn-outline-success" type="submit">Réactiver</button>
+                                        {% else %}
+                                            <button class="btn btn-sm btn-outline-danger" type="submit">Suspendre</button>
+                                        {% endif %}
+                                    </form>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if empPages > 1 %}
+                            <nav class="mt-3">
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item {% if empPage == 1 %}disabled{% endif %}">
+                                        <a class="page-link" href="{{ path('admin_dashboard', {'empPage': empPage - 1, 'userPage': userPage}) }}">&laquo;</a>
+                                    </li>
+                                    {% for p in 1..empPages %}
+                                        <li class="page-item {% if p == empPage %}active{% endif %}">
+                                            <a class="page-link" href="{{ path('admin_dashboard', {'empPage': p, 'userPage': userPage}) }}">{{ p }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    <li class="page-item {% if empPage == empPages %}disabled{% endif %}">
+                                        <a class="page-link" href="{{ path('admin_dashboard', {'empPage': empPage + 1, 'userPage': userPage}) }}">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-muted mb-0">Aucun employé créé.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Utilisateurs</h5>
+                </div>
+                <div class="card-body" style="max-height: 420px; overflow:auto;">
+                    {% if users|length > 0 %}
+                        <div class="list-group">
+                            {% for usr in users %}
+                                <div class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="fw-semibold">{{ usr.pseudo }}</div>
+                                        <div class="small text-muted">{{ usr.email }} | Rôles : {{ usr.roles|join(', ') }}</div>
+                                    </div>
+                                    <form method="post" action="{{ path('admin_user_toggle_suspend', {id: usr.id}) }}" onsubmit="return confirm('Confirmer la suspension / réactivation ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('toggle_suspend_' ~ usr.id) }}">
+                                        {% if usr.suspended %}
+                                            <button class="btn btn-sm btn-outline-success" type="submit">Réactiver</button>
+                                        {% else %}
+                                            <button class="btn btn-sm btn-outline-danger" type="submit">Suspendre</button>
+                                        {% endif %}
+                                    </form>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if userPages > 1 %}
+                            <nav class="mt-3">
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item {% if userPage == 1 %}disabled{% endif %}">
+                                        <a class="page-link" href="{{ path('admin_dashboard', {'empPage': empPage, 'userPage': userPage - 1}) }}">&laquo;</a>
+                                    </li>
+                                    {% for p in 1..userPages %}
+                                        <li class="page-item {% if p == userPage %}active{% endif %}">
+                                            <a class="page-link" href="{{ path('admin_dashboard', {'empPage': empPage, 'userPage': p}) }}">{{ p }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    <li class="page-item {% if userPage == userPages %}disabled{% endif %}">
+                                        <a class="page-link" href="{{ path('admin_dashboard', {'empPage': empPage, 'userPage': userPage + 1}) }}">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-muted mb-0">Aucun utilisateur.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ridesLabels = {{ ridesLabels|json_encode|raw }};
+        const ridesValues = {{ ridesValues|json_encode|raw }};
+        const earningsLabels = {{ earningsLabels|json_encode|raw }};
+        const earningsValues = {{ earningsValues|json_encode|raw }};
+
+        const ridesCtxEl = document.getElementById('ridesChart');
+        const ridesEmpty = document.getElementById('ridesChartEmpty');
+        if (ridesCtxEl && ridesLabels.length > 0) {
+            new Chart(ridesCtxEl.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ridesLabels,
+                    datasets: [{ label: 'Covoiturages / jour', data: ridesValues, backgroundColor: '#198754' }]
+                }
+            });
+        } else if (ridesEmpty) {
+            ridesEmpty.classList.remove('d-none');
+        }
+
+        const earnCtxEl = document.getElementById('earningsChart');
+        const earningsEmpty = document.getElementById('earningsChartEmpty');
+        if (earnCtxEl && earningsLabels.length > 0) {
+            new Chart(earnCtxEl.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: earningsLabels,
+                    datasets: [{ label: 'Crédits gagnés', data: earningsValues, borderColor: '#0d6efd', backgroundColor: 'rgba(13,110,253,0.2)', tension: 0.2 }]
+                }
+            });
+        } else if (earningsEmpty) {
+            earningsEmpty.classList.remove('d-none');
+        }
+    </script>
+{% endblock %}
+{% endblock %}

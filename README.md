@@ -1,4 +1,4 @@
-# TP_DWWM_Juin-Juil-Sept-Oct25_copiearendre_JULIEN_Gaetan
+# Ecoride
 
 ***
 
@@ -18,7 +18,7 @@ L’objectif principal est de promouvoir la mobilité durable à travers un site
 ## Organisation du projet
 
 La disposition du projet se découpe en 2 dossiers, 
-l'un nommé app contient tout le code de l'application.
+l'un nommé App contient tout le code de l'application.
 l'autre nommé doc contient donc toute la documentation du projet tel que :
 
 * Chartes graphique
@@ -31,11 +31,24 @@ l'autre nommé doc contient donc toute la documentation du projet tel que :
 
 ### Déploiement du site 
 
-Se déplacer dans les dossier Ecoride ensuite dans app enfin cliquer sur index.html 
+Depuis la racine du projet, placez-vous dans `App/` :
 
-***
+1. Démarrer les services locaux (MySQL + Mailpit) : `docker compose up -d database mailer`
+2. Installer les dépendances PHP : `composer install`
+3. Installer les dépendances front : `npm install` puis build : `npm run build`
+4. Lancer Symfony : `symfony serve -d` (ou le serveur PHP interne) puis accéder à l’URL fournie.
+
+
+Pour accéder au profil Administrateur :
+
+pseudo: gaetan  
+mot de passe : 12345678
+
+Pour l'employé:
+
+Pseudo: jenny1233  
+mot de passe : 12345678
 
 Technologie utilisé:
 
-HTML, Css, Boostrap, Javascript, LocalStorage et github 
-
+HTML, CSS, Boostrap, PHP, symfony et github

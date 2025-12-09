@@ -1,0 +1,67 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}s'inscrire{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center">
+    <div class="col-12 col-md-8 col-lg-5">
+
+        <!-- Card -->
+        <div class="card shadow-sm mt-5 rounded-4">
+
+            <div class="card-header bg-success text-white text-center rounded-top-4 py-3">
+                <h3 class="mb-0">S'inscrire</h3>
+            </div>
+
+            <div class="card-body p-4">
+
+                {% for flash_error in app.flashes('verify_email_error') %}
+                    <div class="alert alert-danger">{{ flash_error }}</div>
+                {% endfor %}
+
+                <p class="text-muted text-center mb-4">Veuillez entrer vos identifiants</p>
+
+                {{ form_start(registrationForm) }}
+
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.pseudo, {
+                            attr: { class: 'form-control form-control-lg' }
+                        }) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.email,
+                            attr: { class:'form-control form-control-lg'}
+                        )}}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.plainPassword, {
+                            label: 'Mot de passe',
+                            attr: { class: 'form-control form-control-lg' }
+                        }) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.agreeTerms, {
+                            label:'Accepter les termes'
+                        }) }}
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            Connexion
+                        </button>
+                    </div>
+
+                {{ form_end(registrationForm) }}
+
+            </div>
+        </div>
+        <!-- End card -->
+
+    </div>
+</div>
+
+{% endblock %}

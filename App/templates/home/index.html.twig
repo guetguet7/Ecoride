@@ -1,0 +1,67 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Ecoride {% endblock %}
+
+{% block content %}
+    <main>
+        <section class="position-relative">
+            <h1 class="position-absolute text-light" style="top: 10%; left: 50%; transform: translate(-50%, -50%);">EcoRide</h1>
+            <p class="position-absolute text-light" style="top: 15%; left: 50%; transform: translate(-50%, -50%);">Un trajet partagé, une planète allégée.</p>
+            <img src="{{ asset('images/1photo.jpg') }}" alt="photo voiture ecologique" class="object-fit-cover border rounded picture_index">
+            <div class="position-absolute top-50 start-50 translate-middle w-75">
+                <div class="card p-4 shadow-lg bg-opacity-90" style="background: rgba(255,255,255,0.9);">
+                    <h3 class="text-center mb-4">Rechercher un covoiturage</h3>
+                    <form id="formRecherche" method="get" action="{{ path('app_covoiturage') }}">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="depart" class="form-label">Départ</label>
+                                <input type="text" class="form-control" id="depart" name="depart" placeholder="Ville de départ">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="arrivee" class="form-label">Arrivée</label>
+                                <input type="text" class="form-control" id="arrivee" name="arrivee" placeholder="Ville d’arrivée">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="date" class="form-label">Date du trajet</label>
+                                <input type="date" class="form-control" id="date" name="date">
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success btn-lg">Rechercher</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section_margin mt-5 container">
+            <header class="text-center mb-3">
+                <h2 class="text-success">Notre histoire</h2>
+            </header>
+
+            <div class="row align-items-stretch">
+                <figure class="col-md-6 mb-3 mb-md-0">
+                    <img src="{{ asset('images/2150858289.jpg') }}" 
+                        alt="photo voiture écologique" 
+                        class="img-fluid rounded shadow h-100 w-100 object-fit-cover">
+                </figure>
+
+                <div class="col-md-6 d-flex">
+                    <div class="bg-success text-light p-4 rounded shadow w-100 d-flex align-items-center">
+                        <p class="text-center mb-0 fs-5">
+                        EcoRide, c'est la nouvelle génération du covoiturage en France : simple, écologique et économique. 
+                        Notre plateforme connecte conducteurs et passagers pour transformer chaque trajet en une opportunité 
+                        de réduire les coûts et l'empreinte carbone. Nous ne proposons pas seulement un service de mobilité, 
+                        nous offrons une expérience conviviale et durable où chaque kilomètre partagé contribue à préserver 
+                        notre planète. Avec EcoRide, voyager devient un acte responsable et intelligent.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {# <a href="{{ path('app_contact') }}" class="text-decoration-none d-flex justify-content-center mb-5">
+            <h2 class="contact d-flex justify-content-center align-items-center text-center text-light bg-success">Contactez nous</h2>
+        </a> #}
+    </main>
+{% endblock %}
