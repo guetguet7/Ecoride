@@ -8,8 +8,7 @@ use App\Entity\Voiture;
 use App\Repository\RidesRepository;
 use App\Repository\AvisRepository;
 use App\Repository\ParticipationRepository;
-use DateTimeImmutable;
-use DateTimeInterface;
+use DateTime;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mime\Address;
@@ -83,13 +82,13 @@ final class RidesController extends AbstractController
             $ride->setLieuDepart($data['lieuDepart'] ?? '');
             $ride->setLieuArrivee($data['lieuArrivee'] ?? '');
 
-            $dateDepart = !empty($data['dateHeureDepart']) ? new DateTimeImmutable($data['dateHeureDepart']) : null;
-            $dateArrivee = !empty($data['dateHeureArrivee']) ? new DateTimeImmutable($data['dateHeureArrivee']) : null;
+            $dateDepart = !empty($data['dateHeureDepart']) ? new DateTime($data['dateHeureDepart']) : null;
+            $dateArrivee = !empty($data['dateHeureArrivee']) ? new DateTime($data['dateHeureArrivee']) : null;
 
-            if ($dateDepart instanceof DateTimeInterface) {
+            if ($dateDepart !== null) {
                 $ride->setDateHeureDepart($dateDepart);
             }
-            if ($dateArrivee instanceof DateTimeInterface) {
+            if ($dateArrivee !== null) {
                 $ride->setDateHeureArrivee($dateArrivee);
             }
 
@@ -157,7 +156,7 @@ final class RidesController extends AbstractController
                 $canReview = !$userReview && $rideFinished;
             }
         }
-
+        
         return $this->render('rides/show.html.twig', [
             'ride' => $ride,
             'driver' => $driver,
@@ -172,6 +171,7 @@ final class RidesController extends AbstractController
         ]);
     }
 
+    
     #[Route('/rides/{id}/delete', name: 'ride_delete', methods: ['POST'])]
     public function delete(int $id, Request $request, EntityManagerInterface $em): Response
     {

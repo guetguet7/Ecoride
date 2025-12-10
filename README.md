@@ -31,23 +31,20 @@ l'autre nommé doc contient donc toute la documentation du projet tel que :
 
 ### Déploiement du site 
 
-Depuis la racine du projet, placez-vous dans `App/` :
+Depuis la racine du projet, placez-vous dans `App/` puis taper depuis le terminal:
 
-1. Démarrer les services locaux (MySQL + Mailpit) : `docker compose up -d database mailer`
-2. Installer les dépendances PHP : `composer install`
-3. Installer les dépendances front : `npm install` puis build : `npm run build`
-4. Lancer Symfony : `symfony serve -d` (ou le serveur PHP interne) puis accéder à l’URL fournie.
-
+1. Démarrer le serveur : `symfony server:start` ensuite cliquer sur le lien qui s'affichera
+2. Démarrer l'outil de teste d'email maiilpit: lancer depuis le serveur `mailpit` ensuite cliquer sur le lien qui s'affichera  
 
 Pour accéder au profil Administrateur :
 
 pseudo: gaetan  
-mot de passe : 12345678
+mot de passe : 
 
 Pour l'employé:
 
 Pseudo: jenny1233  
-mot de passe : 12345678
+mot de passe : 
 
 Technologie utilisé:
 
