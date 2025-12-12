@@ -39,13 +39,14 @@ Depuis la racine du projet, placez-vous dans `App/` puis taper depuis le termina
 Pour accéder au profil Administrateur :
 
 pseudo: gaetan  
-mot de passe : 
-
+ 
 Pour l'employé:
 
 Pseudo: jenny1233  
-mot de passe : 
 
 Technologie utilisé:
 
 HTML, CSS, Boostrap, PHP, symfony et github
+
+créer une base de données 
+exporter la base de donnees avecc structure et données 
