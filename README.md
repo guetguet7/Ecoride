@@ -42,7 +42,11 @@ pseudo: gaetan
  
 Pour l'employé:
 
-Pseudo: jenny1233  
+Pseudo: Safe
+
+Utilisateur :
+
+pseudo: veronique
 
 Technologie utilisé:
 
