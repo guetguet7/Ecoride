@@ -31,7 +31,9 @@ final class AdminController extends AbstractController
 
         $totalCredits = (int) $conn->fetchOne('SELECT COALESCE(SUM(amount), 0) FROM participation');
 
+
         $ridesLabels = array_map(static fn(array $r) => $r['day'], $ridesPerDay);
+
         $ridesValues = array_map(static fn(array $r) => (int) $r['rideCount'], $ridesPerDay);
         $earningsLabels = array_map(static fn(array $e) => $e['day'], $earningsPerDay);
         $earningsValues = array_map(static fn(array $e) => (int) $e['totalCredits'], $earningsPerDay);
@@ -39,20 +41,24 @@ final class AdminController extends AbstractController
         $users = $userRepository->findAll();
         $employees = array_filter($users, fn (User $u) => in_array('ROLE_EMPLOYEE', $u->getRoles(), true));
 
+        //PAGINATION
         $perPage = 3;
         $empPage = max(1, (int) $request->query->get('empPage', 1));
         $userPage = max(1, (int) $request->query->get('userPage', 1));
 
+        // Employees pagination
         $empTotal = count($employees);
         $empPages = max(1, (int) ceil($empTotal / $perPage));
         $empPage = min($empPage, $empPages);
         $employeesPage = array_slice(array_values($employees), ($empPage - 1) * $perPage, $perPage);
 
+        // Users pagination
         $userTotal = count($users);
         $userPages = max(1, (int) ceil($userTotal / $perPage));
         $userPage = min($userPage, $userPages);
         $usersPage = array_slice($users, ($userPage - 1) * $perPage, $perPage);
 
+        
         return $this->render('admin/index.html.twig', [
             'ridesPerDay' => $ridesPerDay,
             'earningsPerDay' => $earningsPerDay,
@@ -70,6 +76,7 @@ final class AdminController extends AbstractController
         ]);
     }
 
+    // Create Employee
     #[Route('/employee/create', name: 'admin_employee_create', methods: ['POST'])]
     public function createEmployee(
         Request $request,
@@ -103,6 +110,7 @@ final class AdminController extends AbstractController
         return $this->redirectToRoute('admin_dashboard');
     }
 
+    // Toggle User Suspension
     #[Route('/user/{id}/toggle-suspend', name: 'admin_user_toggle_suspend', methods: ['POST'])]
     public function toggleSuspend(int $id, Request $request, UserRepository $userRepository): Response
     {
