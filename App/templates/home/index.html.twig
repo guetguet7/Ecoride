@@ -5,10 +5,12 @@
 {% block content %}
     <main>
         <section class="position-relative">
-            <h1 class="position-absolute text-light" style="top: 10%; left: 50%; transform: translate(-50%, -50%);">EcoRide</h1>
-            <p class="position-absolute text-light" style="top: 15%; left: 50%; transform: translate(-50%, -50%);">Un trajet partagé, une planète allégée.</p>
+            <div class="hero-text position-absolute start-50 translate-middle-x text-center text-light">
+                <h1 class="mb-3">EcoRide</h1>
+                <p class="mb-0">Un trajet partagé, une planète allégée.</p>
+            </div>
             <img src="{{ asset('images/1photo.jpg') }}" alt="photo voiture ecologique" class="object-fit-cover border rounded picture_index">
-            <div class="position-absolute top-50 start-50 translate-middle w-75">
+            <div class="hero-form">
                 <div class="card p-4 shadow-lg bg-opacity-90" style="background: rgba(255,255,255,0.9);">
                     <h3 class="text-center mb-4">Rechercher un covoiturage</h3>
                     <form id="formRecherche" method="get" action="{{ path('app_covoiturage') }}">
@@ -33,7 +35,7 @@
                 </div>
             </div>
         </section>
-        
+
         <section class="section_margin mt-5 container">
             <header class="text-center mb-3">
                 <h2 class="text-success">Notre histoire</h2>

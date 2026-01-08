@@ -20201,6 +20201,27 @@ img.picture_index {
   height: 80vh;
 }
 
+.hero-text {
+  top: 8%;
+  width: min(90%, 700px);
+}
+
+.hero-form {
+  width: min(92%, 900px);
+  margin: 1.5rem auto 0;
+}
+
+@media (min-width: 992px) {
+  .hero-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    margin: 0;
+  }
+}
+
 section .card-size {
   max-width: 500px;
 }
@@ -20213,7 +20234,7 @@ section .contact {
 }
 
 section.section_margin {
-  margin-top: -10rem;
+  margin-top: 2rem;
   margin-bottom: 3rem;
 }
 
@@ -20221,4 +20242,11 @@ h2.contact, .contact.h2 {
   width: 40%;
   height: 50px;
   border-radius: 100px;
-}/*# sourceMappingURL=main.css.map */
+}
+
+@media (max-width: 991.98px) {
+  img.picture_index {
+    height: 55vh;
+  }
+}
+/*# sourceMappingURL=main.css.map */
